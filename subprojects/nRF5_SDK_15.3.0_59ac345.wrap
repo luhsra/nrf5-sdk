@@ -1,0 +1,8 @@
+[wrap-file]
+directory = nRF5_SDK_15.3.0_59ac345
+
+source_url = https://developer.nordicsemi.com/nRF5_SDK/nRF5_SDK_v15.x.x/nRF5_SDK_15.3.0_59ac345.zip
+source_filename = nRF5_SDK_15.3.0_59ac345.zip
+source_hash = 9c9307d757d109007f2fcc4e547ac10b1a9fd9faa477e8dbf3f7e1624c4801a5
+
+diff_files = nRF5_SDK_15.3.0_59ac345-add-meson.patch

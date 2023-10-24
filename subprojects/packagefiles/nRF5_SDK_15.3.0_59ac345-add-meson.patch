@@ -1,0 +1,24 @@
+From afcce4a0a4d44eb79e8f101b1bb5dffd8be7e86f Mon Sep 17 00:00:00 2001
+From: Gerion Entrup <entrup@sra.uni-hannover.de>
+Date: Tue, 24 Oct 2023 16:03:36 +0200
+Subject: [PATCH] Add meson.build
+
+---
+ meson.build | 5 +++++
+ 1 file changed, 5 insertions(+)
+ create mode 100644 meson.build
+
+diff --git a/meson.build b/meson.build
+new file mode 100644
+index 0000000..e10b768
+--- /dev/null
++++ b/meson.build
+@@ -0,0 +1,5 @@
++project('nrf5-sdk-orig', 'c',
++  version : '15.3.0',
++  default_options : ['warning_level=3'])
++
++nrf5_sdk_dir = meson.project_source_root()
+-- 
+2.41.0
+

@@ -1,0 +1,59 @@
+diff --git a/fix_newline.py b/fix_newline.py
+new file mode 100644
+index 0000000..4364077
+--- /dev/null
++++ b/fix_newline.py
+@@ -0,0 +1,26 @@
++#!/usr/bin/env python
++"""Add a single newline as EOF."""
++import argparse
++import pathlib
++import shutil
++import sys
++
++
++def main():
++    parser = argparse.ArgumentParser(description=sys.modules[__name__].__doc__)
++    parser.add_argument('--output',
++                        help='Output file',
++                        required=True,
++                        type=pathlib.Path)
++    parser.add_argument('input',
++                        help='file to fix',
++                        type=pathlib.Path)
++    args = parser.parse_args()
++
++    shutil.copyfile(args.input, args.output)
++    with open(args.output, 'a') as out:
++        out.write('\n')
++
++
++if __name__ == '__main__':
++    main()
+diff --git a/meson.build b/meson.build
+new file mode 100644
+index 0000000..436ceea
+--- /dev/null
++++ b/meson.build
+@@ -0,0 +1,21 @@
++project('nrf5-llvm', 'c',
++  version : '0.1',
++  default_options : ['warning_level=3'])
++
++py3_mod = import('python')
++py3_inst = py3_mod.find_installation('python3')
++
++# stack_ptr.patch has a missing newline at the end so it needs extra care
++stack_ptr_patch = custom_target('stack-ptr-patch',
++  input: 'stack_ptr.patch',
++  output: 'stack_ptr_fixed.patch',
++  command: [py3_inst, files('fix_newline.py'), '@INPUT@', '--output', '@OUTPUT@']
++)
++
++patches = files(
++  'error_handler.patch',
++  'isr_vector.patch',
++  'vmsr.patch'
++) + stack_ptr_patch
++
++nrfsvc_script = files('nrfsvc.py')

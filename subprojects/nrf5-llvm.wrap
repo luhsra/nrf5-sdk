@@ -1,0 +1,6 @@
+[wrap-git]
+url = https://github.com/eblot/nrf5-llvm.git
+revision = 00e2aca3b9582b35b6c188632c0139bc76cf3138
+depth = 1
+
+diff_files = nrf5-llvm-add-meson.patch
