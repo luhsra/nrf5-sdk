@@ -20,15 +20,14 @@ patch_args = []
 foreach patch : nrf5_llvm_patches
   patch_args += ['--patch', patch]
 endforeach
-patched_sdk = custom_target('patched-sdk',
-  input: [],
-  output: 'nrf5_sdk_patched',
-  command: [
-    py3_inst, files('patch.py'),
-    '--output-dir', '@OUTPUT@',
-    patch_args,
-    '--convert-script', nrf5_llvm_script,
-    '--sdk-path', nrf5_sdk_dir,
-    '--git', git.full_path()
-  ]
+
+nrf5_sdk_patched = meson.current_build_dir() / 'nrf5_sdk_patched'
+run_command(
+  py3_inst, files('patch.py'),
+  '--output-dir', nrf5_sdk_patched,
+  patch_args,
+  '--convert-script', nrf5_llvm_script,
+  '--sdk-path', nrf5_sdk_dir,
+  '--git', git.full_path(),
+  check: true
 )

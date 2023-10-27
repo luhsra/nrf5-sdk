@@ -32,10 +32,10 @@ index 0000000..4364077
 +    main()
 diff --git a/meson.build b/meson.build
 new file mode 100644
-index 0000000..436ceea
+index 0000000..4d2e304
 --- /dev/null
 +++ b/meson.build
-@@ -0,0 +1,21 @@
+@@ -0,0 +1,23 @@
 +project('nrf5-llvm', 'c',
 +  version : '0.1',
 +  default_options : ['warning_level=3'])
@@ -44,11 +44,13 @@ index 0000000..436ceea
 +py3_inst = py3_mod.find_installation('python3')
 +
 +# stack_ptr.patch has a missing newline at the end so it needs extra care
-+stack_ptr_patch = custom_target('stack-ptr-patch',
-+  input: 'stack_ptr.patch',
-+  output: 'stack_ptr_fixed.patch',
-+  command: [py3_inst, files('fix_newline.py'), '@INPUT@', '--output', '@OUTPUT@']
-+)
++#
++stack_ptr_patch = meson.current_build_dir() / 'stack_ptr_fixed.patch'
++run_command(
++  py3_inst, files('fix_newline.py'),
++  files('stack_ptr.patch'),
++  '--output', stack_ptr_patch,
++  check: true)
 +
 +patches = files(
 +  'error_handler.patch',
