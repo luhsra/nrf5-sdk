@@ -21,10 +21,10 @@ foreach patch : nrf5_llvm_patches
   patch_args += ['--patch', patch]
 endforeach
 
-nrf5_sdk_patched = meson.current_build_dir() / 'nrf5_sdk_patched'
+patched_sdk = meson.current_build_dir() / 'nrf5_sdk_patched'
 run_command(
   py3_inst, files('patch.py'),
-  '--output-dir', nrf5_sdk_patched,
+  '--output-dir', patched_sdk,
   patch_args,
   '--convert-script', nrf5_llvm_script,
   '--sdk-path', nrf5_sdk_dir,
