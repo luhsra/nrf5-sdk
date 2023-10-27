@@ -14,7 +14,7 @@ nrf5_llvm = subproject('nrf5-llvm')
 nrf5_llvm_script = nrf5_llvm.get_variable('nrfsvc_script')
 nrf5_llvm_patches = nrf5_llvm.get_variable('patches')
 
-git = find_program('git')
+patch_program = find_program('patch')
 
 patch_args = []
 foreach patch : nrf5_llvm_patches
@@ -28,6 +28,6 @@ run_command(
   patch_args,
   '--convert-script', nrf5_llvm_script,
   '--sdk-path', nrf5_sdk_dir,
-  '--git', git.full_path(),
+  '--patch-program', patch_program.full_path(),
   check: true
 )
