@@ -20,41 +20,41 @@ index 0000000..f57ca3b
 +
 +nrfsvc_script = files('nrfsvc.py')
 diff --git a/stack_ptr.patch b/stack_ptr.patch
-index 66cf236..e9c7b2c 100644
+index 66cf236..2117908 100644
 --- a/stack_ptr.patch
 +++ b/stack_ptr.patch
-@@ -1,13 +1,19 @@
----- a/modules/nrfx/mdk/compiler_abstraction.h  2018-09-07 16:23:10.000000000 +0200
--+++ b/modules/nrfx/mdk/compiler_abstraction.h  2018-09-07 16:23:10.000000000 +0200
+@@ -1,13 +1,13 @@
+ --- a/modules/nrfx/mdk/compiler_abstraction.h  2018-09-07 16:23:10.000000000 +0200
+ +++ b/modules/nrfx/mdk/compiler_abstraction.h  2018-09-07 16:23:10.000000000 +0200
 -@@ -115,13 +115,21 @@
 -         #define __PACKED           __attribute__((packed))
-+--- a/modules/nrfx/mdk/compiler_abstraction.h	2023-10-24 19:38:14.796859837 +0200
-++++ b/modules/nrfx/mdk/compiler_abstraction.h	2023-10-27 19:45:54.895508823 +0200
-+@@ -66,7 +66,8 @@
-+         #define __PACKED            __packed
++@@ -139,13 +139,21 @@
++         #define __PACKED           __attribute__((packed)) 
       #endif
 -
---    #define GET_SP()                gcc_current_sp()
 + 
-+-    #define GET_SP()                __current_sp()
+ -    #define GET_SP()                gcc_current_sp()
  +    #if !defined(__clang__)
  +         #define GET_SP()                gcc_current_sp()
 -
-+     
-+ #elif defined (__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)
-+ 
-+@@ -141,11 +142,18 @@
-+ 
-+     #define GET_SP()                gcc_current_sp()
 + 
  -    static inline unsigned int gcc_current_sp(void)
  -    {
  -        register unsigned sp __ASM("sp");
-@@ -25,5 +31,6 @@
+@@ -18,12 +18,13 @@
+ +             register unsigned sp __ASM("sp");
+ +             return sp;
+ +         }
+-+   #else
+++    #else
+ +         #define GET_SP()                clang_current_sp()
+ +         static inline unsigned int clang_current_sp(void)
+ +         {
  +             return __builtin___get_unsafe_stack_ptr();
  +         }
- +   #endif
+-+   #endif
 -
+++    #endif
 + 
   #elif defined   ( __TASKING__ )
 + 
