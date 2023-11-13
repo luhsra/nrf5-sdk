@@ -20,7 +20,7 @@ index 0000000..f57ca3b
 +
 +nrfsvc_script = files('nrfsvc.py')
 diff --git a/stack_ptr.patch b/stack_ptr.patch
-index 66cf236..2117908 100644
+index 66cf236..d4a5f76 100644
 --- a/stack_ptr.patch
 +++ b/stack_ptr.patch
 @@ -1,13 +1,13 @@
@@ -50,7 +50,8 @@ index 66cf236..2117908 100644
  +         #define GET_SP()                clang_current_sp()
  +         static inline unsigned int clang_current_sp(void)
  +         {
- +             return __builtin___get_unsafe_stack_ptr();
+-+             return __builtin___get_unsafe_stack_ptr();
+++             return (unsigned int) __builtin___get_unsafe_stack_ptr();
  +         }
 -+   #endif
 -
